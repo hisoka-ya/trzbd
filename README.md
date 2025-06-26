@@ -77,4 +77,28 @@
     EXEC sp_AddEmployee @EmployeeID = 2, @Name = 'Jane Smith', @Position = 'Manager';
 
 
-Эти примеры демонстрируют базовые операции в Microsoft SQL Server. Вы можете адаптировать их под свои нужды!
+Вот пример пользовательской функции в Microsoft SQL Server. Эта функция будет принимать EmployeeID в качестве параметра и возвращать имя сотрудника, если он существует в таблице Employees.
+
+▎5. Пример функции
+
+    CREATE FUNCTION dbo.fn_GetEmployeeName
+    (
+        @EmployeeID INT
+    )
+    RETURNS NVARCHAR(100)
+    AS
+    BEGIN
+        DECLARE @EmployeeName NVARCHAR(100);
+    
+    SELECT @EmployeeName = Name
+    FROM Employees
+    WHERE EmployeeID = @EmployeeID;
+    
+    RETURN @EmployeeName;
+    END;
+
+▎Использование функции
+
+Вы можете использовать эту функцию в запросе, чтобы получить имя сотрудника по его идентификатору:
+
+    SELECT dbo.fn_GetEmployeeName(1) AS EmployeeName;  -- Замените 1 на нужный вам EmployeeID
